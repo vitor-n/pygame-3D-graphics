@@ -62,14 +62,12 @@ while True:
 
     n = lookat_vector
     n /= np.linalg.norm(n)
+
     u = np.cross([0,1,0], n)
-    u = np.cross(n, [0,-1,0])
-    v = np.cross(n, u)
-
     u /= np.linalg.norm(u)
-    v /= np.linalg.norm(v)
 
-    print(degrees(angle_x))
+    v = np.cross(n, u)
+    v /= np.linalg.norm(v)
 
     rot_camera = camera_orientation(u,v,n)
     rot_camera = (rotation_y(angle_y) @ rotation_x(angle_x)).transpose()
@@ -87,15 +85,10 @@ while True:
     key = pygame.key.get_pressed()
 
     mouse_x, mouse_y = pygame.mouse.get_pos()
-    if mouse_x != 0 and mouse_y != 0:
-        mouse_vector = np.array((w//2 - mouse_x, h//2 - mouse_y)) / 10
-        angle_y -= radians(mouse_vector[0])
-        angle_x -= radians(mouse_vector[1])
-        if degrees(angle_x) > 90:
-            angle_x = radians(90)
-        if degrees(angle_x) < -90:
-            angle_x = radians(-90)
-        pygame.mouse.set_pos((w//2,h//2))
+    mouse_vector = np.array((w//2 - mouse_x, h//2 - mouse_y)) / 10
+    angle_y -= radians(mouse_vector[0])
+    angle_x -= radians(mouse_vector[1])
+    pygame.mouse.set_pos((w//2,h//2))
 
     print("uvn: ", u,v,n)
     #print("pos xyz: ", (pos_x,pos_y,pos_z))

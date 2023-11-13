@@ -69,7 +69,7 @@ while True:
     v = np.cross(n, u)
     v /= np.linalg.norm(v)
 
-    rot_camera = camera_orientation(u,v,n)
+    #rot_camera = camera_orientation(u,v,n)
     rot_camera = (rotation_y(angle_y) @ rotation_x(angle_x)).transpose()
 
     camera_matrix = rot_camera @ camera_translation((pos_x, pos_y, pos_z))
@@ -82,8 +82,7 @@ while True:
         if event.type == pygame.MOUSEWHEEL:
             pos_z += 10 * event.y
 
-    key = pygame.key.get_pressed()
-
+    # Getting mouse position and rotation angles
     mouse_x, mouse_y = pygame.mouse.get_pos()
     mouse_vector = np.array((w//2 - mouse_x, h//2 - mouse_y)) / 10
     angle_y -= radians(mouse_vector[0])
@@ -94,6 +93,9 @@ while True:
     #print("pos xyz: ", (pos_x,pos_y,pos_z))
     #print("angles: ", degrees(angle_x), degrees(angle_y))
 
+
+    # Handling keyboard inputs
+    key = pygame.key.get_pressed()
     if key[K_ESCAPE]:
         quit()
 
@@ -127,7 +129,7 @@ while True:
     if key[K_RIGHT]:
         angle_y += 0.001
 
-    screen.fill("black")
+    
     screen.fill("#ff5555")
 
     cube_p = obj_verts @ final_matrix.transpose()

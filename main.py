@@ -5,8 +5,8 @@ from math import tan, radians, degrees, cos, sin, sqrt
 from transforms import *
 import time
 
-h = 600
-w = 800
+width = 800
+height = 600
 
 file = open("cessna.obj")
 
@@ -29,7 +29,7 @@ fov = radians(90)
 scaling_factor = 1/(tan(fov/2))
 
 pygame.init()
-screen = pygame.display.set_mode((w,h))
+screen = pygame.display.set_mode((width,height))
 clock = pygame.time.Clock()
 
 t = 0
@@ -74,7 +74,7 @@ while True:
 
     camera_matrix = rot_camera @ camera_translation((pos_x, pos_y, pos_z))
 
-    final_matrix = perspective(fov,h/w,znear,zfar) @ viewport(w,h) @ camera_matrix @ world_matrix
+    final_matrix = perspective(fov,height/width,znear,zfar) @ viewport(width,height) @ camera_matrix @ world_matrix
 
     for event in pygame.event.get():
         if event.type in [pygame.QUIT]:
@@ -84,10 +84,10 @@ while True:
 
     # Getting mouse position and rotation angles
     mouse_x, mouse_y = pygame.mouse.get_pos()
-    mouse_vector = np.array((w//2 - mouse_x, h//2 - mouse_y)) / 10
+    mouse_vector = np.array((width//2 - mouse_x, height//2 - mouse_y)) / 10
     angle_y -= radians(mouse_vector[0])
     angle_x -= radians(mouse_vector[1])
-    pygame.mouse.set_pos((w//2,h//2))
+    pygame.mouse.set_pos((width//2,height//2))
 
     print("uvn: ", u,v,n)
     #print("pos xyz: ", (pos_x,pos_y,pos_z))
@@ -136,9 +136,9 @@ while True:
 
     for vertex in cube_p:
         if vertex[0,3] < 0:
-            pygame.draw.circle(screen, "black", (vertex[0,0] / vertex[0,3] + w//2, vertex[0,1]/vertex[0,3] + h//2), 2)
+            pygame.draw.circle(screen, "black", (vertex[0,0] / vertex[0,3] + width//2, vertex[0,1]/vertex[0,3] + height//2), 2)
         
-    pygame.draw.circle(screen, "white", (w//2, h//2), 5, 2)
+    pygame.draw.circle(screen, "white", (width//2, height//2), 5, 2)
 
     pygame.display.update()
     clock.tick()

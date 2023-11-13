@@ -4,6 +4,7 @@ import numpy as np
 from math import tan, radians, degrees, cos, sin, sqrt
 from transforms import *
 import time
+from input_handler import mouse_handler
 
 width = 800
 height = 600
@@ -83,11 +84,7 @@ while True:
             pos_z += 10 * event.y
 
     # Getting mouse position and rotation angles
-    mouse_x, mouse_y = pygame.mouse.get_pos()
-    mouse_vector = np.array((width//2 - mouse_x, height//2 - mouse_y)) / 10
-    angle_y -= radians(mouse_vector[0])
-    angle_x -= radians(mouse_vector[1])
-    pygame.mouse.set_pos((width//2,height//2))
+    angle_x, angle_y = mouse_handler(width, height, angle_x, angle_y)
 
     print("uvn: ", u,v,n)
     #print("pos xyz: ", (pos_x,pos_y,pos_z))

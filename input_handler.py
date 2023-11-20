@@ -3,6 +3,7 @@ from math import tan, radians, degrees, cos, sin, sqrt
 import numpy as np
 from pygame.locals import *
 from camera import Camera
+from object_3d import Object_3D
 
 def mouse_handler(screen_width, screen_height, angle_x, angle_y):
     """
@@ -20,7 +21,7 @@ def mouse_handler(screen_width, screen_height, angle_x, angle_y):
 
     return angle_x, angle_y
 
-def keyboard_handler(camera: Camera):
+def keyboard_handler(camera: Camera, object: Object_3D):
     """
     Handles the keyboard inputs of the program. 
     Calls the camera methods according to the pressed keys, allowing movement.
@@ -43,10 +44,10 @@ def keyboard_handler(camera: Camera):
         camera.move_downwards()
     
     if key[K_UP]:
-        camera.angle_x -= 0.001
+        object.angle_x -= radians(1)
     if key[K_DOWN]:
-        camera.angle_x += 0.001
+        object.angle_x += radians(1)
     if key[K_LEFT]:
-        camera.angle_y -= 0.001
+        object.angle_y -= radians(1)
     if key[K_RIGHT]:
-        camera.angle_y += 0.001
+        object.angle_y += radians(1)

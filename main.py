@@ -21,7 +21,7 @@ clock = pygame.time.Clock()
 pygame.mouse.set_visible(0)
 
 camera = Camera()
-obj = Object_3D("cessna.obj", (0, 0, 100))
+obj = Object_3D("cessna.obj", (0, 0, 0))
 
 t = 0
 fov = 100
@@ -49,12 +49,12 @@ while True:
     camera.angle_x, camera.angle_y = mouse_handler(width, height, camera.angle_x, camera.angle_y)
 
     # Handling keyboard inputs
-    keyboard_handler(camera)
+    keyboard_handler(camera, obj)
     
     screen.fill("#ff5555")
-
+    
     obj.draw(screen, width, height, final_matrix)
-        
+
     pygame.draw.circle(screen, "white", (width//2, height//2), 5, 2)
 
     pygame.display.update()

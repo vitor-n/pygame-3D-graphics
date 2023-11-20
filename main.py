@@ -6,26 +6,12 @@ from transforms import *
 import time
 from input_handler import mouse_handler
 from camera import Camera
-from object import Object
+from object_3d import Object_3D
 
 width = 800
 height = 600
 
-file = open("cessna.obj")
-
-obj_verts = []
-obj_faces = []
-
-for line in file:
-    if line.startswith("v"):
-        try:
-            _, x,y,z = line.split()
-        except:
-            pass
-        obj_verts.append([float(x),float(y),float(z),1])
-    if line.startswith("f"):
-        _, *indices = line.split()
-        obj_faces.append(indices)
+obj = Object_3D("cessna.obj")
 
 fov = radians(90)
 
@@ -97,7 +83,7 @@ while True:
     
     screen.fill("#ff5555")
 
-    cube_p = obj_verts @ final_matrix.transpose()
+    cube_p = obj.vertices @ final_matrix.transpose()
 
     for vertex in cube_p:
         if vertex[0,3] < 0:

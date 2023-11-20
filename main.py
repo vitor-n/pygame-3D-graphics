@@ -4,7 +4,7 @@ import numpy as np
 from math import tan, radians, degrees, cos, sin, sqrt
 from transforms import *
 import time
-from input_handler import mouse_handler
+from input_handler import mouse_handler, keyboard_handler
 from camera import Camera
 from object_3d import Object_3D
 
@@ -52,34 +52,8 @@ while True:
     # Getting mouse position and rotation angles
     camera.angle_x, camera.angle_y = mouse_handler(width, height, camera.angle_x, camera.angle_y)
 
-
     # Handling keyboard inputs
-    key = pygame.key.get_pressed()
-    if key[K_ESCAPE]:
-        quit()
-
-    if key[K_w]:
-        camera.move_forwards()
-    if key[K_s]:
-        camera.move_backwards()
-    if key[K_a]:
-        camera.move_left()
-    if key[K_d]:
-        camera.move_right()
-    if key[K_q]:
-        camera.move_upwards()
-    if key[K_e]:
-        camera.move_downwards()
-    
-    if key[K_UP]:
-        camera.angle_x -= 0.001
-    if key[K_DOWN]:
-        camera.angle_x += 0.001
-    if key[K_LEFT]:
-        camera.angle_y -= 0.001
-    if key[K_RIGHT]:
-        camera.angle_y += 0.001
-
+    keyboard_handler(camera)
     
     screen.fill("#ff5555")
 

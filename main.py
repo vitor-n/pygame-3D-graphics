@@ -11,8 +11,6 @@ from object_3d import Object_3D
 width = 800
 height = 600
 
-obj = Object_3D("cessna.obj")
-
 fov = radians(90)
 
 scaling_factor = 1/(tan(fov/2))
@@ -20,17 +18,15 @@ scaling_factor = 1/(tan(fov/2))
 pygame.init()
 screen = pygame.display.set_mode((width,height))
 clock = pygame.time.Clock()
-
-t = 0
-
-fov = 100
-
-zfar = 1000
-znear = 0.01
-
 pygame.mouse.set_visible(0)
 
 camera = Camera()
+obj = Object_3D("cessna.obj", (0, 0, 100))
+
+t = 0
+fov = 100
+zfar = 1000
+znear = 0.01
 
 while True:
 
@@ -57,11 +53,7 @@ while True:
     
     screen.fill("#ff5555")
 
-    cube_p = obj.vertices @ final_matrix.transpose()
-
-    for vertex in cube_p:
-        if vertex[0,3] < 0:
-            pygame.draw.circle(screen, "black", (vertex[0,0] / vertex[0,3] + width//2, vertex[0,1]/vertex[0,3] + height//2), 2)
+    obj.draw(screen, width, height, final_matrix)
         
     pygame.draw.circle(screen, "white", (width//2, height//2), 5, 2)
 

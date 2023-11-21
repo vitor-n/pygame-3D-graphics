@@ -16,27 +16,30 @@ class Camera:
         self.speed = 1
 
 
-        self.get_new_axes()
+        self.update_axes()
         self.matrix = self.get_rotation() @ self.get_translation()
 
     def update(self):
-        self.get_new_axes()
+        self.update_axes()
         self.matrix = self.get_rotation() @ self.get_translation()
 
-    def get_new_axes(self):
+    def update_axes(self):
         """
         Function to get new axes for the view space (camera).
         """
         
         lookat_vector = (rotation_y(self.angle_y) @ rotation_x(self.angle_x) @ (0,0,1,0))[0,:3]
         
-        n_axis = lookat_vector
-        u_axis = np.cross([0,1,0], n_axis)
-        v_axis = np.cross(n_axis, u_axis)
+        n_vector = lookat_vector
+        u_vector = np.cross([0,1,0], n_vector)
+        v_vector = np.cross(n_vector, u_vector)
 
-        self.n_axis = n_axis / np.linalg.norm(n_axis)
-        self.u_axis = u_axis / np.linalg.norm(u_axis)
-        self.v_axis = v_axis / np.linalg.norm(v_axis)
+        self.n_vector = n_vector / np.linalg.norm(n_vector)
+        self.u_vector = u_vector / np.linalg.norm(u_vector)
+        self.v_vector = v_vector / np.linalg.norm(v_vector)
+
+    def get_axes(self):
+        return self.u_vector, self.v_vector, self.n_vector
 
     def get_rotation(self):
         return (rotation_y(self.angle_y) @ rotation_x(self.angle_x)).transpose()
@@ -45,20 +48,20 @@ class Camera:
         return camera_translation((self.pos_x, self.pos_y, self.pos_z))
 
     def move_forwards(self):
-        self.pos_x += self.n_axis[0,0] * self.speed
-        self.pos_z += self.n_axis[0,2] * self.speed 
+        self.pos_x += self.n_vector[0,0] * self.speed
+        self.pos_z += self.n_vector[0,2] * self.speed 
     
     def move_backwards(self):
-        self.pos_x -= self.n_axis[0,0] * self.speed
-        self.pos_z -= self.n_axis[0,2] * self.speed 
+        self.pos_x -= self.n_vector[0,0] * self.speed
+        self.pos_z -= self.n_vector[0,2] * self.speed 
 
     def move_right(self):
-        self.pos_x -= self.u_axis[0,0] * self.speed
-        self.pos_z -= self.u_axis[0,2] * self.speed 
+        self.pos_x -= self.u_vector[0,0] * self.speed
+        self.pos_z -= self.u_vector[0,2] * self.speed 
 
     def move_left(self):
-        self.pos_x += self.u_axis[0,0] * self.speed
-        self.pos_z += self.u_axis[0,2] * self.speed 
+        self.pos_x += self.u_vector[0,0] * self.speed
+        self.pos_z += self.u_vector[0,2] * self.speed 
 
     def move_upwards(self):
         self.pos_y += self.speed

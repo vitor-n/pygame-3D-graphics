@@ -34,7 +34,7 @@ class Object_3D:
         relative_vertices = self.vertices @ (view_matrix @ translation(*self.initial_pos)).transpose()
         for vertex in relative_vertices:
             if vertex[0,3] < 0:
-                pygame.draw.circle(screen, "black", (vertex[0,0] / vertex[0,3] + width//2, vertex[0,1]/vertex[0,3] + height//2), 2)
+                pygame.draw.circle(screen, "white", (vertex[0,0] / vertex[0,3] + width//2, vertex[0,1]/vertex[0,3] + height//2), 1)
 
     @property
     def angle_x(self):

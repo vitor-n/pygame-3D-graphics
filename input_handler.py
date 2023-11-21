@@ -14,10 +14,11 @@ def mouse_handler(screen_width, screen_height, angle_x, angle_y):
     Returns the angle_x and angle_y
     """
     mouse_x, mouse_y = pygame.mouse.get_pos()
-    mouse_vector = np.array((screen_width//2 - mouse_x, screen_height//2 - mouse_y)) / 10
-    angle_y -= radians(mouse_vector[0])
-    angle_x -= radians(mouse_vector[1])
-    pygame.mouse.set_pos((screen_width//2, screen_height//2))
+    if mouse_x != 0 and mouse_y != 0:
+        mouse_vector = np.array((screen_width//2 - mouse_x, screen_height//2 - mouse_y)) / 10
+        angle_y -= radians(mouse_vector[0])
+        angle_x -= radians(mouse_vector[1])
+        pygame.mouse.set_pos((screen_width//2, screen_height//2))
 
     return angle_x, angle_y
 

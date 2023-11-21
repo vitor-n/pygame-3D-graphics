@@ -16,11 +16,9 @@ class Object_3D:
                 except:
                     pass
 
-                # A parte comentada faz com que o centro do objeto não esteja na origem de seu espaço!
-
-                x = float(x) #+ initial_pos[0]
-                y = float(y) #+ initial_pos[1]  
-                z = float(z) #+ initial_pos[2]   
+                x = float(x)
+                y = float(y) 
+                z = float(z)
 
                 self.vertices.append([x,y,z,1])
 
@@ -33,7 +31,7 @@ class Object_3D:
         self._angle_z = 0
 
     def draw(self, screen: pygame.Surface, width: int, height: int, view_matrix: np.ndarray):
-        relative_vertices = self.vertices @ view_matrix.transpose()
+        relative_vertices = self.vertices @ (view_matrix @ translation(*self.initial_pos)).transpose()
         for vertex in relative_vertices:
             if vertex[0,3] < 0:
                 pygame.draw.circle(screen, "black", (vertex[0,0] / vertex[0,3] + width//2, vertex[0,1]/vertex[0,3] + height//2), 2)

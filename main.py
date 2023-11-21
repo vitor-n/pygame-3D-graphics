@@ -24,7 +24,7 @@ pygame.mouse.set_visible(0)
 camera = Camera()
 camera_axes = AxesIndicator((camera.angle_x, camera.angle_y, camera.angle_z),(50, 50), 20)
 
-obj = Object_3D("cessna.obj", (0, 0, 0))
+obj = Object_3D("cessna.obj", (0, 0, 100))
 object_axes = AxesIndicator((obj.angle_x, obj.angle_y, obj.angle_z), (100, 50), 20)
 
 t = 0

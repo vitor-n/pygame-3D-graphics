@@ -12,7 +12,7 @@ class AxesIndicator:
         self.angle_x, self.angle_y, self.angle_z = new_angles
 
     def draw(self, screen: pygame.Surface):
-        projection_matrix = np.array(([1, 0, 0, 0], [0, 1, 0, 0]))
+        projection_matrix = np.array(([1, 0, 0, 0], [0, -1, 0, 0]))
         add_center_matrix = np.array(([self.center[0], self.center[1]], 
                                       [self.center[0], self.center[1]], 
                                       [self.center[0], self.center[1]],

@@ -55,7 +55,7 @@ while True:
     # Handling keyboard inputs
     keyboard_handler(camera, obj)
     
-    screen.fill("#ff5555")
+    screen.fill("black")
     
     obj.draw(screen, width, height, final_matrix)
 
@@ -65,7 +65,7 @@ while True:
     object_axes.update((obj.angle_x, obj.angle_y, obj.angle_z))
     object_axes.draw(screen)
 
-    pygame.draw.circle(screen, "white", (width//2, height//2), 5, 2)
+    pygame.draw.circle(screen, "grey", (width//2, height//2), 5, 2)
 
     pygame.display.update()
     clock.tick()

@@ -24,8 +24,9 @@ pygame.mouse.set_visible(0)
 camera = Camera()
 camera_axes = AxesIndicator(camera.get_axes(),(50, 50), 20)
 
-obj = Object_3D("cessna.obj", (0, 0, 100))
-object_axes = AxesIndicator(obj.get_axes(), (100, 50), 20)
+grid = Object_3D("meshes/grid.obj", (0, -15, 100), (5,5,5))
+airplane = Object_3D("meshes/cessna.obj", (0, 0, 100))
+object_axes = AxesIndicator(airplane.get_axes(), (100, 50), 20)
 
 t = 0
 fov = 100
@@ -53,19 +54,24 @@ while True:
     camera.angle_x, camera.angle_y = mouse_handler(width, height, camera.angle_x, camera.angle_y)
 
     # Handling keyboard inputs
-    keyboard_handler(camera, obj)
+    keyboard_handler(camera, airplane)
     
     screen.fill("black")
     
-    obj.draw(screen, width, height, final_matrix)
+    grid.update(final_matrix)
+    grid.draw_vertex(screen, width, height)
+    grid.draw_edges(screen, width, height, "#222222")
+
+    airplane.update(final_matrix)
+    airplane.draw_vertex(screen, width, height)
 
     camera_axes.update(camera.get_axes())
     camera_axes.draw(screen)
 
-    object_axes.update(obj.get_axes())
+    object_axes.update(airplane.get_axes())
     object_axes.draw(screen)
 
-    pygame.draw.circle(screen, "grey", (width//2, height//2), 5, 2)
+    pygame.draw.circle(screen, "#ff3333", (width//2, height//2), 5, 2)
 
     pygame.display.update()
-    clock.tick()
+    clock.tick(60)

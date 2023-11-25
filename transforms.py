@@ -1,6 +1,18 @@
 import numpy as np
 from math import sin, cos, tan, radians, atan
 
+def scale(sx, sy, sz):
+    """
+    Receives the coordinates of the nearest face of an object.
+    Returns the translation matrix for said object.
+    """
+    s_matrix = np.identity(4)
+
+    s_matrix[0,0] = sx
+    s_matrix[1,1] = sy
+    s_matrix[2,2] = sz
+
+    return s_matrix
 
 def rotation_x(theta):
     """
@@ -51,30 +63,6 @@ def translation(tx, ty, tz):
 
     return t_matrix
 
-def perspective(fov:float, aspect:float, znear:float, zfar:float):
-    """
-    Receives the angle of the field of view, 
-    the aspect ratio of the plane (normally the screen)
-    znear and zfar, which are the distances between the nearest face and the furthest one
-
-    Returns the perspective projection matrix
-    """
-    m = np.zeros((4,4))
-
-    e = 1 / tan(radians(fov/2))
-
-    m = np.matrix(([e,0,0,0],
-                   [0,e,0,0],
-                   [0,0,(znear)/(zfar-znear),-(zfar*znear)/(zfar-znear)],
-                   [0,0,1,0]))
-
-    test = [[aspect*e,0,0,0],
-            [0,e,0,0],
-            [0,0,-(zfar+znear)/(zfar-znear), -(2*zfar*znear)/(zfar-znear)],
-            [0,0,-1,0]]
-
-    return test
-
 def camera_translation(pos):
     """ ?
     Receives the coordinates of the nearest face of an object.
@@ -103,6 +91,30 @@ def camera_orientation(u,v,n):
                                     [     0,      0,      0, 1])),
 
     return orientation_matrix
+
+def perspective(fov:float, aspect:float, znear:float, zfar:float):
+    """
+    Receives the angle of the field of view, 
+    the aspect ratio of the plane (normally the screen)
+    znear and zfar, which are the distances between the nearest face and the furthest one
+
+    Returns the perspective projection matrix
+    """
+    m = np.zeros((4,4))
+
+    e = 1 / tan(radians(fov/2))
+
+    m = np.matrix(([e,0,0,0],
+                   [0,e,0,0],
+                   [0,0,(znear)/(zfar-znear),-(zfar*znear)/(zfar-znear)],
+                   [0,0,1,0]))
+
+    test = [[aspect*e,0,0,0],
+            [0,e,0,0],
+            [0,0,-(zfar+znear)/(zfar-znear), -(2*zfar*znear)/(zfar-znear)],
+            [0,0,-1,0]]
+
+    return test
 
 def viewport(width, height):
     """ ?

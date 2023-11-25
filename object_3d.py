@@ -2,6 +2,7 @@ import pygame
 import numpy as np
 from typing import Tuple
 from transforms import *
+
 class Object_3D:
     def __init__(self, file_path: str, initial_pos: Tuple[int] = (0, 0, 0)):
 
@@ -9,6 +10,8 @@ class Object_3D:
         file = open(file_path)
         self.vertices = []
         self.faces = []
+        self.relative_vertices = []
+
         for line in file:
             if line.startswith("v"):
                 try:
@@ -30,11 +33,21 @@ class Object_3D:
         self._angle_y = 0
         self._angle_z = 0
 
-    def draw(self, screen: pygame.Surface, width: int, height: int, view_matrix: np.ndarray):
+
+    def update(self, view_matrix: np.ndarray):
+        self.relative_vertices = self.vertices @ (view_matrix @ translation(*self.initial_pos)).transpose()
+
+    def draw_vertex(self, screen: pygame.Surface, width: int, height: int):
+        for vertex in self.relative_vertices:
+            if vertex[0,3] < 0:
+                pygame.draw.circle(screen, "white", (vertex[0,0] / vertex[0,3] + width//2, vertex[0,1]/vertex[0,3] + height//2), 1)
+
+    def draw_edges(self, screen: pygame.Surface, width: int, height: int, view_matrix: np.ndarray):
         relative_vertices = self.vertices @ (view_matrix @ translation(*self.initial_pos)).transpose()
         for vertex in relative_vertices:
             if vertex[0,3] < 0:
                 pygame.draw.circle(screen, "white", (vertex[0,0] / vertex[0,3] + width//2, vertex[0,1]/vertex[0,3] + height//2), 1)
+
 
     @property
     def angle_x(self):

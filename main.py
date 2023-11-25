@@ -24,7 +24,7 @@ pygame.mouse.set_visible(0)
 camera = Camera()
 camera_axes = AxesIndicator((camera.angle_x, camera.angle_y, camera.angle_z),(50, 50), 20)
 
-obj = Object_3D("cessna.obj", (0, 0, 100))
+obj = Object_3D("grid.obj", (0, -10, 100))
 object_axes = AxesIndicator((obj.angle_x, obj.angle_y, obj.angle_z), (100, 50), 20)
 
 t = 0
@@ -57,7 +57,8 @@ while True:
     
     screen.fill("black")
     
-    obj.draw(screen, width, height, final_matrix)
+    obj.update(final_matrix)
+    obj.draw_vertex(screen, width, height)
 
     camera_axes.update((camera.angle_x, camera.angle_y, camera.angle_z))
     camera_axes.draw(screen)
@@ -65,7 +66,7 @@ while True:
     object_axes.update((obj.angle_x, obj.angle_y, obj.angle_z))
     object_axes.draw(screen)
 
-    pygame.draw.circle(screen, "grey", (width//2, height//2), 5, 2)
+    pygame.draw.circle(screen, "#ff3333", (width//2, height//2), 5, 2)
 
     pygame.display.update()
-    clock.tick()
+    clock.tick(60)

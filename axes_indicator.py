@@ -18,7 +18,7 @@ class AxesIndicator:
                                       [self.center[0], self.center[1]],
                                       [self.center[0], self.center[1]]))
         
-        projected_rotation = projection_matrix @ rotation_x(self.angle_x) @ rotation_y(self.angle_y) @ rotation_z(self.angle_z)
+        projected_rotation = projection_matrix @ rotation_z(self.angle_z) @ rotation_y(self.angle_y) @ rotation_x(self.angle_x)
         transposed_rotation = (projected_rotation * self.line_size).transpose()
         lines_end_positions = (transposed_rotation + add_center_matrix).tolist()
 

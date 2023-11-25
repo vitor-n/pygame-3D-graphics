@@ -20,7 +20,7 @@ class AxesIndicator:
                                       [self.center[0], self.center[1], 0], 
                                       [self.center[0], self.center[1], 0]))
         
-        lines_end_positions = (vectors_matrix * self.line_size + add_center_matrix).tolist()
+        lines_end_positions = (vectors_matrix * -self.line_size + add_center_matrix).tolist()
 
         pygame.draw.line(screen, "red", self.center, lines_end_positions[0][:2], 2)
         pygame.draw.line(screen, "green", self.center, lines_end_positions[1][:2], 2)

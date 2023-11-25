@@ -36,6 +36,19 @@ class Object_3D:
             if vertex[0,3] < 0:
                 pygame.draw.circle(screen, "white", (vertex[0,0] / vertex[0,3] + width//2, vertex[0,1]/vertex[0,3] + height//2), 1)
 
+    def get_axes(self):
+        lookat_vector = (rotation_y(self.angle_y) @ rotation_x(self.angle_x) @ (0,0,1,0))[0,:3]
+        
+        n_vector = lookat_vector
+        u_vector = np.cross([0,1,0], n_vector)
+        v_vector = np.cross(n_vector, u_vector)
+
+        n_vector = n_vector / np.linalg.norm(n_vector)
+        u_vector = u_vector / np.linalg.norm(u_vector)
+        v_vector = v_vector / np.linalg.norm(v_vector)
+
+        return u_vector, v_vector, n_vector
+
     @property
     def angle_x(self):
         return self._angle_x

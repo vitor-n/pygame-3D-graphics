@@ -13,6 +13,7 @@ class AxesIndicator:
         self.vec_x, self.vec_y, self.vec_z = new_vectors
 
     def draw(self, screen: pygame.Surface):
+
         vectors_matrix = np.concatenate((self.vec_x, self.vec_y, self.vec_z))
         
         add_center_matrix = np.array(([self.center[0], self.center[1], 0], 

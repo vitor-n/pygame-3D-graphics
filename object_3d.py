@@ -2,6 +2,7 @@ import pygame
 import numpy as np
 from typing import Tuple
 from transforms import *
+
 class Object_3D:
     def __init__(self, file_path: str, initial_pos: Tuple[int] = (0, 0, 0), scaling_factors: Tuple[float] = (1,1,1)):
 
@@ -10,6 +11,7 @@ class Object_3D:
         self.vertices = []
         self.faces = []
         self.relative_vertices = []
+        self.colors = []
         for line in file:
             if line.startswith("v"):
                 try:
@@ -101,3 +103,28 @@ class Object_3D:
     def angle_z(self, new_angle_z):
         self.vertices = self.vertices @ rotation_z(new_angle_z - self._angle_z)
         self._angle_z = new_angle_z
+
+class Axes(Object_3D):
+    def __init__(self, file_path: str, initial_pos: Tuple[int] = (0, 0, 0), scaling_factors: Tuple[float] = (1, 1, 1)):
+        super().__init__(file_path, initial_pos, scaling_factors)
+        self.color_mapping = {0: (255, 0, 0), 1: (0, 255, 0), 2: (0, 0, 255)}
+
+    def draw_edges(self, screen: pygame.Surface, width: int, height: int):
+        for index, face in enumerate(self.faces):
+            face_len = len(face)
+            for i in range(face_len):
+                index_1 = face[i] - 1
+                index_2 = face[(i + 1) % face_len] - 1 
+
+                w1 = self.relative_vertices[index_1,3]
+                w2 = self.relative_vertices[index_2,3]
+
+                if w1 < 0 and w2 < 0:
+
+                    point_1a = self.relative_vertices[index_1,0] / w1
+                    point_1b = self.relative_vertices[index_1,1] / w1
+
+                    point_2a = self.relative_vertices[index_2,0] / w2
+                    point_2b = self.relative_vertices[index_2,1] / w2
+
+                    pygame.draw.line(screen, self.color_mapping.get(index), (point_1a + 400, point_1b + 300), (point_2a + 400, point_2b + 300), 2)

@@ -15,7 +15,6 @@ class Camera:
 
         self.speed = 1
 
-
         self.update_axes()
         self.matrix = self.get_rotation() @ self.get_translation()
 

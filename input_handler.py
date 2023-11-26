@@ -45,10 +45,10 @@ def keyboard_handler(camera: Camera, object: Object_3D):
         camera.move_downwards()
     
     if key[K_UP]:
-        object.angle_x -= radians(1)
+        object.angle_x -= 2*radians(1)
     if key[K_DOWN]:
-        object.angle_x += radians(1)
+        object.angle_x += 2*radians(1)
     if key[K_LEFT]:
-        object.angle_y -= radians(1)
+        object.angle_y -= 2*radians(1)
     if key[K_RIGHT]:
-        object.angle_y += radians(1)
+        object.angle_y += 2*radians(1)
